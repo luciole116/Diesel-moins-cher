@@ -11,8 +11,23 @@ android {
         applicationId = "fr.diesel.moinscher"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        // Numéro de version incrémenté automatiquement à chaque compilation GitHub
+        val run = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
+        versionCode = run
+        versionName = "1.$run"
+    }
+
+    // Clé de signature fixe : les mises à jour s'installent par-dessus l'ancienne version
+    signingConfigs {
+        getByName("debug") {
+            val ks = file("debug.keystore")
+            if (ks.exists()) {
+                storeFile = ks
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
+        }
     }
 
     buildTypes {
