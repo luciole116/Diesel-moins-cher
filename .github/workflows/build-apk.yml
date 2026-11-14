@@ -16,6 +16,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Compiler
         run: |
+          base64 -d app/debug.keystore.b64 > app/debug.keystore
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
